@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+    <header>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+        .loader {
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 120px;
+            height: 120px;
+            -webkit-animation: spin 2s linear infinite; /* Safari */
+            animation: spin 2s linear infinite;
+            display: none;
+            }
+
+            /* Safari */
+            @-webkit-keyframes spin {
+            0% { -webkit-transform: rotate(0deg); }
+            100% { -webkit-transform: rotate(360deg); }
+            }
+
+            @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+            }
+
+            .center-loader{
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                margin: auto;
+            }
+            .blocker{
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                background: rgba(0,0,0,0.2);
+                display: none;
+            }
+    </style>
+    </header>
+    <body>
+        <!-- <nav>
+            <button type="button" class="btn btn-success">Import Word, CSV or Excel files</button>
+        </nav>
+        <main>
+            main content
+        </main> -->
+        <div id="blocker" class="blocker"></div>
+
+        <div class="container-fluid">
+            <div class="row flex-nowrap">
+                <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+                    <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                        <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                            <span class="fs-5 d-none d-sm-inline">QualiGPT Web</span>
+                        </a>
+                        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                            <li class="nav-item">
+                                <!-- <a href="#" class="nav-link align-middle px-0">
+                                    <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
+                                </a> -->
+                                <input type="file" id="fileInput" style="display: none;">
+
+                                <button id='uploadBtn' onclick="document.getElementById('fileInput').click()"type="button" class="btn btn-success">Import Word, CSV or Excel files</button>
+                            </li>
+                        </ul>
+                        <hr>
+                        <!-- <div class="dropdown pb-4">
+                            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30" class="rounded-circle">
+                                <span class="d-none d-sm-inline mx-1">loser</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                                <li><a class="dropdown-item" href="#">New project...</a></li>
+                                <li><a class="dropdown-item" href="#">Settings</a></li>
+                                <li><a class="dropdown-item" href="#">Profile</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="#">Sign out</a></li>
+                            </ul>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="col py-3">
+                    <!-- Data:
+                    <div class="w-100">
+                        <textarea class="w-100">content content content</textarea>
+                    </div>
+                    <div>
+                  
+                    </div> -->
+                    <div id='loader' class="loader center-loader"></div>
+                    <form id="data-form">
+                        <div class="mb-3">
+                            <h4>Data</h4>
+
+                            <!-- <label for="exampleInputPassword1" class="form-label">Data</label> -->
+                            <textarea name='data_content' class="form-control" id="user_data"></textarea>
+                        </div>
+                        <!-- <hr>
+
+                        <div class="d-flex flex-row">
+                            <div class="header-container w-50">
+                                <h4>Header Information</h4>
+                                <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="form-label">username</label>
+                                    <input class="form-control" id="exampleInputEmail1" Placeholder="(Optional) Please describe the meaning of this label">
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="exampleInputPassword1" class="form-label">comment</label>
+                                    <input class="form-control" id="exampleInputPassword1">
+                                  </div>
+                            </div>
+                        </div> -->
+
+                     
+                        <hr>
+                        <h4>Prompt Settings</h4>
+                        <!-- <div class="mb-3 form-check">
+
+                          <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                          <label class="form-check-label" for="exampleCheck1">Enable Role Playing</label>
+                        </div> -->
+
+                        <div class="mb-3 form-outline">
+                            <label class="form-label" for="typeNumber">Number of Themes</label>
+                            <input name="num_themes" type="number" min="1" value="10" id="num_themes" class="form-control" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-check-label" for="exampleCheck1">Select Data Type</label>
+                            <select class="form-select  mb-3" aria-label=".form-select-lg example" id="data_type" name="data_type" >
+                                <option value="1">Interview</option>
+                                <option value="2">Focus</option>
+                                <option value="3">Social Media Post</option>
+                              </select>
+                        </div>
+                        
+                          <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Custom Prompt</label>
+                            <textarea class="form-control" id="custom_prompt" name="custom_prompt"></textarea>
+                          </div>
+                        <div class="d-flex justify-content-center">
+                            <button id='form_submit_btn'  class="btn btn-primary">Submit</button>
+
+                        </div>
+                      </form>
+                    <div>
+                        <h4>Result</h4>
+                        <div id="result-box">asdjfialsfasd</div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+    </body>
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function() {
+            // Handle file selection or form submission here
+            show_loading()
+            console.log('File selected:', this.files[0]);
+                // var fileInput = document.getElementById('fileInput');
+                var file = this.files[0];
+                var formData = new FormData();
+                formData.append('file', file);
+
+                $.ajax({
+                    url: '/api/upload',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        console.log('File uploaded successfully');
+                        hide_loading()
+                        if(response['code'] == 200){
+                            $('#user_data').html(response['message']['data'])
+
+                        }else{
+                            alert(response['message'])
+                        }
+                        
+                        // Handle successful upload
+                        console.log(response)
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Upload failed:', error);
+                        alert(error)
+                        // Handle upload failure
+                    }
+                });
+            });
+        $(document).ready(function() {
+            $('#form_submit_btn').click(function(e) {
+                e.preventDefault(); // Prevent the form from submitting via the browser
+                
+                var formData = new FormData();
+                show_loading()
+                $.ajax({
+                    url: '/api/call_gpt',
+                    type: 'POST',
+                    data:$('#data-form').serialize(),
+                    success: function(response) {
+                        console.log('Data Form uploaded successfully');
+                        console.log(response)
+                        $('#result-box').html(response['message'][0].replace(/\n/g, "<br>"))
+                        hide_loading()
+
+                        // Handle success response if needed
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Upload failed:', error);
+                        // Handle error response if needed
+                    }
+                });
+            });
+        })
+        let show_loading = function(){
+            $('#blocker').css('display','block')
+            $('#loader').css('display','block')
+        }
+        let hide_loading = function(){
+            $('#blocker').css('display','none')
+            $('#loader').css('display','none')
+        }
+    </script>
+</html>
